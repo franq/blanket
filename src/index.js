@@ -1,7 +1,7 @@
 var extend = require("xtend"),
     path = require('path'),
-    join = path.join;
-
+    join = path.join,
+    babel = require('babel');
 
 var blanketNode = function (userOptions,cli){
 
@@ -68,6 +68,9 @@ var blanketNode = function (userOptions,cli){
             }
             if (option === "data-cover-reporter-options"){
                 newOptions.reporter_options = optionValue;
+            }
+            if (option === "use-babel"){
+                newOptions.babel = optionValue;
             }
         });
         blanket.options(newOptions);
@@ -142,7 +145,14 @@ var blanketNode = function (userOptions,cli){
                 if (_blanket.options("debug")) {console.log("BLANKET-File will never be instrumented:"+filename);}
             }else if (blanket.matchPattern(filename,pattern)){
                 if (_blanket.options("debug")) {console.log("BLANKET-Attempting instrument of:"+filename);}
-                var content = fs.readFileSync(filename, 'utf8');
+
+                var content;
+                if (_blanket.options("babel")) {
+                    content = babel.transformFileSync(filename).code;
+                } else {
+                    content = fs.readFileSync(filename, 'utf8');
+                }
+
                 if (reporter_options && reporter_options.shortnames){
                     inputFilename = filename.replace(path.dirname(filename),"");
                 } else if (reporter_options && reporter_options.relativepath) {

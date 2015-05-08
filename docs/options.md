@@ -13,6 +13,7 @@ This guide details all the configuration options available for the browser versi
 * [data-cover-reporter-options](#data-cover-reporter-options)
 * [data-cover-testReadyCallback](#data-cover-testReadyCallback)
 * [data-cover-timeout](#data-cover-timeout)
+* [use-babel](#use-babel)
 
 
 ## data-cover-adapter
@@ -133,3 +134,7 @@ This guide details all the configuration options available for the browser versi
   b. relativepath:  Set to true to report files relative to the root of the project
 
   c. basepath:  Set to a string to remove part of the absolute path that is reported
+
+## use-babel
+
+  This option is only available in node. this will instrument the transcompiled javascript from babel.
